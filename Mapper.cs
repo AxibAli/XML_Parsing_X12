@@ -123,7 +123,7 @@ namespace XmlParser
         public string ApPosFlap4245 { get; set; }
         #endregion
 
-        Profile profile { get; set; }
+        public Profile profile { get; set; }
     }
 
 
@@ -153,7 +153,7 @@ namespace XmlParser
         public string Custid { get; set; }
 
         [XmlAttribute(AttributeName = "parsedate")]
-        public DateTime Parsedate { get; set; }
+        public string Parsedate { get; set; }
 
         [XmlAttribute(AttributeName = "parentcustid")]
         public string Parentcustid { get; set; }
@@ -162,7 +162,7 @@ namespace XmlParser
         public int Contractid { get; set; }
 
         [XmlAttribute(AttributeName = "dtcreated")]
-        public DateTime Dtcreated { get; set; }
+        public string Dtcreated { get; set; }
 
         [XmlAttribute(AttributeName = "transid")]
         public string Transid { get; set; }
@@ -271,7 +271,7 @@ namespace XmlParser
         public string Qual { get; set; }
 
         [XmlAttribute(AttributeName = "from")]
-        public DateTime From { get; set; }
+        public string From { get; set; }
     }
 
     [XmlRoot(ElementName = "sbr")]
@@ -394,7 +394,7 @@ namespace XmlParser
         public string Code { get; set; }
 
         [XmlAttribute(AttributeName = "date")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 
     [XmlRoot(ElementName = "elr")]
