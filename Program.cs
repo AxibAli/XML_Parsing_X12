@@ -26,6 +26,25 @@ public class Parser
 
         }
         insurancePlans.profile = profile;
+        insurancePlans.ElectronicPayorId = profile.Elr.Header.Payerid;
+
+        foreach (var item in profile.Elr.Ln)
+        {
+            if (item?.Msg?.Text == "BITEWING XRAY") 
+            {
+                insurancePlans.BWFreq = $"{item?.Qty} per {item?.Timeperiod}";
+            }
+            else if (item?.Msg?.Text == "SEALANTS")
+            {
+                if(item?.Qtyqual == "Number of Services or Procedures")
+                insurancePlans.SealantFreq = $"{item?.Qty} per {item?.Timeperiod}";
+
+                else if (item?.Qtyqual?.Contains("Age") == true)
+                    insurancePlans.SealantAge = $"Age {item?.Qty}";
+            }
+        }
+
+        //insurancePlans.BWFreq=profile.Elr.Ln.Contains()
         return insurancePlans;
     }
 }
