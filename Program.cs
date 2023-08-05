@@ -103,7 +103,7 @@ public class Parser
                 else if (item?.Qtyqual?.Contains("Age") == true)
                     insurancePlans.FlourideAgeCovered = $"Age {item?.Qty}";
             }
-            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ROOT CANAL") != null)
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "PERIODONTAL SCALING") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                 {
@@ -112,7 +112,10 @@ public class Parser
                 }
 
                 else if (item?.Timeperiod == "Visit")
+                {
                     insurancePlans.Percentage4346 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.SRP43414342 = item?.Percent != null ? item?.Percent.ToString() : "";
+                }
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ONLAY") != null)
             {
@@ -126,6 +129,23 @@ public class Parser
                     insurancePlans.Perc7210 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
                 }
                 insurancePlans.Extractions = item.Tos.Code;
+            }
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "CROWN RECEMENTATION") != null)
+            {
+                insurancePlans.RecemCrown2920 = item?.Msg.FirstOrDefault(msg => msg.Text == "CROWN RECEMENTATION").Text;
+            }
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "OCCLUSAL ADJUSTMENT") != null)
+            {
+                insurancePlans.OcclusalOrthoticDevice7880 = item?.Msg.FirstOrDefault(msg => msg.Text == "OCCLUSAL ADJUSTMENT").Text;
+            }
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ROOT CANAL") != null)
+            {
+                if (item?.Timeperiod == "Visit")
+                {
+                    insurancePlans.RCT1_3310 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.RCT2_3320 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.RCT3_3330 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                }
             }
 
         }
