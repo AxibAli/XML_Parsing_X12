@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using XmlParser;
 
@@ -31,7 +32,8 @@ public class Parser
 
         foreach (var item in profile.Elr.Ln)
         {
-            if (item?.Msg?.Text == "BITEWING XRAY")
+
+            if (item?.Msg.FirstOrDefault(msg => msg.Text == "BITEWING XRAY") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.BWFreq = $"{item?.Qty} per {item?.Timeperiod}";
@@ -39,7 +41,7 @@ public class Parser
                 else if (item?.Timeperiod == "Visit")
                     insurancePlans.BWPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
             }
-            else if (item?.Msg?.Text == "SEALANTS")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "SEALANTS") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.SealantFreq = $"{item?.Qty} per {item?.Timeperiod}";
@@ -47,13 +49,13 @@ public class Parser
                 else if (item?.Qtyqual?.Contains("Age") == true)
                     insurancePlans.SealantAge = $"Age {item?.Qty}";
             }
-            else if (item?.Msg?.Text == "CLEANING")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "CLEANING") != null)
             {
                 insurancePlans.Freq4910 = $"{item?.Qty} per {item?.Timeperiod}";
                 insurancePlans.ProphyFreq = $"{item?.Qty} per {item?.Timeperiod}";
                 insurancePlans.PerioMaint4910 = item.Tos.Code;
             }
-            else if (item?.Msg?.Text == "ORAL EXAM")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ORAL EXAM") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.Freq0140 = $"{item?.Qty} per {item?.Timeperiod}";
@@ -61,22 +63,22 @@ public class Parser
                 else if (item?.Timeperiod == "Visit")
                     insurancePlans.Perc0140 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
             }
-            else if (item?.Msg?.Text == "FULL MOUTH")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "FULL MOUTH") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.FMXFreq = $"{item?.Qty} per {item?.Timeperiod}";
 
                 else if (item?.Timeperiod == "Visit")
-                    insurancePlans.FMXPercentage = item?.Percent!=null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.FMXPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
             }
-            else if (item?.Msg?.Text == "FULL MOUTH")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "FULL MOUTH") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.FMDFreq = $"{item?.Qty} per {item?.Timeperiod}";
 
                 insurancePlans.FMD = item.Tos.Code;
             }
-            else if (item?.Msg?.Text == "PALLIATIVE TREATMENT")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "PALLIATIVE TREATMENT") != null)
             {
                 if (item?.Timeperiod == "Calendar Year")
                     insurancePlans.PAFreq = $"{item?.Amt} per {item?.Timeperiod}";
@@ -84,7 +86,7 @@ public class Parser
                 else if (item?.Timeperiod == "Visit")
                     insurancePlans.PAPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
             }
-            else if (item?.Msg?.Text == "PANOREX")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "PANOREX") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.PANOFreq = $"{item?.Qty} per {item?.Timeperiod}";
@@ -93,7 +95,7 @@ public class Parser
                     insurancePlans.PANOPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
             }
 
-            else if (item?.Msg?.Text == "FLUORIDE")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "FLUORIDE") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
                     insurancePlans.FlourideFreq = $"{item?.Qty} per {item?.Timeperiod}";
@@ -101,14 +103,31 @@ public class Parser
                 else if (item?.Qtyqual?.Contains("Age") == true)
                     insurancePlans.FlourideAgeCovered = $"Age {item?.Qty}";
             }
-            else if (item?.Msg?.Text == "ROOT CANAL")
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ROOT CANAL") != null)
             {
                 if (item?.Qtyqual == "Number of Services or Procedures")
+                {
                     insurancePlans.Freq4346 = $"{item?.Qty} per {item?.Timeperiod}";
+                    insurancePlans.Freq4341 = $"{item?.Qty} per {item?.Timeperiod}";
+                }
 
                 else if (item?.Timeperiod == "Visit")
                     insurancePlans.Percentage4346 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
             }
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ONLAY") != null)
+            {
+                insurancePlans.Onlay2644 = item.Tos.Code;
+            }
+            else if (item?.Msg.FirstOrDefault(msg => msg.Text == "EXTRACTIONS ROUTINE") != null)
+            {
+                if (item?.Timeperiod == "Visit")
+                {
+                    insurancePlans.Perc7140 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.Perc7210 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                }
+                insurancePlans.Extractions = item.Tos.Code;
+            }
+
         }
 
         //insurancePlans.BWFreq=profile.Elr.Ln.Contains()

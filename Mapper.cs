@@ -356,7 +356,7 @@ namespace XmlParser
     {
 
         [XmlElement(ElementName = "msg")]
-        public Msg Msg { get; set; }
+        public List<Msg> Msg { get; set; }
 
         [XmlAttribute(AttributeName = "seq")]
         public int Seq { get; set; }
