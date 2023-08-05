@@ -39,7 +39,7 @@ public class Parser
                     insurancePlans.BWFreq = $"{item?.Qty} per {item?.Timeperiod}";
 
                 else if (item?.Timeperiod == "Visit")
-                    insurancePlans.BWPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.BWPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent*100) : 0;
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "SEALANTS") != null)
             {
@@ -48,6 +48,8 @@ public class Parser
 
                 else if (item?.Qtyqual?.Contains("Age") == true)
                     insurancePlans.SealantAge = $"Age {item?.Qty}";
+                else if (item?.Timeperiod == "Visit")
+                    insurancePlans.Sealants = item?.Percent != null ? (item?.Percent * 100).ToString() : ""; 
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "CLEANING") != null)
             {
@@ -61,7 +63,7 @@ public class Parser
                     insurancePlans.Freq0140 = $"{item?.Qty} per {item?.Timeperiod}";
 
                 else if (item?.Timeperiod == "Visit")
-                    insurancePlans.Perc0140 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.Perc0140 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "FULL MOUTH") != null)
             {
@@ -69,7 +71,7 @@ public class Parser
                     insurancePlans.FMXFreq = $"{item?.Qty} per {item?.Timeperiod}";
 
                 else if (item?.Timeperiod == "Visit")
-                    insurancePlans.FMXPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.FMXPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "FULL MOUTH") != null)
             {
@@ -84,7 +86,7 @@ public class Parser
                     insurancePlans.PAFreq = $"{item?.Amt} per {item?.Timeperiod}";
 
                 else if (item?.Timeperiod == "Visit")
-                    insurancePlans.PAPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.PAPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "PANOREX") != null)
             {
@@ -92,7 +94,7 @@ public class Parser
                     insurancePlans.PANOFreq = $"{item?.Qty} per {item?.Timeperiod}";
 
                 else if (item?.Timeperiod == "Visit")
-                    insurancePlans.PANOPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.PANOPercentage = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
             }
 
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "FLUORIDE") != null)
@@ -113,8 +115,8 @@ public class Parser
 
                 else if (item?.Timeperiod == "Visit")
                 {
-                    insurancePlans.Percentage4346 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
-                    insurancePlans.SRP43414342 = item?.Percent != null ? item?.Percent.ToString() : "";
+                    insurancePlans.Percentage4346 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
+                    insurancePlans.SRP43414342 = item?.Percent != null ? (item?.Percent * 100).ToString() : "";
                 }
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ONLAY") != null)
@@ -125,26 +127,26 @@ public class Parser
             {
                 if (item?.Timeperiod == "Visit")
                 {
-                    insurancePlans.Perc7140 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
-                    insurancePlans.Perc7210 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.Perc7140 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
+                    insurancePlans.Perc7210 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
                 }
                 insurancePlans.Extractions = item.Tos.Code;
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "CROWN RECEMENTATION") != null)
             {
-                insurancePlans.RecemCrown2920 = item?.Msg.FirstOrDefault(msg => msg.Text == "CROWN RECEMENTATION").Text;
+                insurancePlans.RecemCrown2920 = item?.Percent != null ? (item?.Percent * 100).ToString() : "";
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "OCCLUSAL ADJUSTMENT") != null)
             {
-                insurancePlans.OcclusalOrthoticDevice7880 = item?.Msg.FirstOrDefault(msg => msg.Text == "OCCLUSAL ADJUSTMENT").Text;
+                insurancePlans.OcclusalOrthoticDevice7880 = item?.Percent != null ? (item?.Percent*100).ToString() : "";
             }
             else if (item?.Msg.FirstOrDefault(msg => msg.Text == "ROOT CANAL") != null)
             {
                 if (item?.Timeperiod == "Visit")
                 {
-                    insurancePlans.RCT1_3310 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
-                    insurancePlans.RCT2_3320 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
-                    insurancePlans.RCT3_3330 = item?.Percent != null ? Convert.ToInt32(item?.Percent) : 0;
+                    insurancePlans.RCT1_3310 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
+                    insurancePlans.RCT2_3320 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
+                    insurancePlans.RCT3_3330 = item?.Percent != null ? Convert.ToInt32(item?.Percent * 100) : 0;
                 }
             }
 
